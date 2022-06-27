@@ -39,5 +39,5 @@ weighted avg  0.883        0.877     0.862       496
     - `/content/drive/Shareddrives/Delta Lab/Data/facebook_2020_party_all_pdid/party_clf_pdid_logit.joblib`
     - `/content/drive/Shareddrives/Delta Lab/Data/facebook_2020_party_all_pdid/party_clf_pdid_svm.joblib`
 
-* results
+* Inference results
     - `/content/drive/Shareddrives/Delta Lab/Data/facebook_2020_party_all_pdid/party_clf_entity_fb_118m.csv`
