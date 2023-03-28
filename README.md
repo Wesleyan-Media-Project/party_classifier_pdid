@@ -1,43 +1,33 @@
 # party_all_classifier_pdid
 
-This party clf is trained at the entity level using a MultinomialNB model.
+This party clf is trained at the entity level using a Random Forest model.
 
 ### Steps
-1. Keep entities in the 1.18m dataset which have 'party_all' info from wmp_fb_entities_v051822.csv
-2. Split entities into train and test (train_size = 0.8)
-3. Prepare text for training, test, and inference:
-    3.1 Deduplicate using 'pd_id' and 'ad_combined_text'
-    3.2 Concatenate ads' 'ad_combined_text' for each pd id
-4. Training models at the entity level - MultinomialNB, Logistic regression, and SVM
-5. Pick the best model based on classification reports.
-6. Make inference: party_clf_pdid_mnb.joblib has been applied to the 1.18m dataset (entity_level/concatenated ad ad_combined_text)
+1. Keep entities in the 1.40m dataset which have 'party_all' info from wmp_fb_entities_v051822.csv
+2. Split page names into train and test (train_size = 0.7) to make sure pd ids of a page into either train or test but never both. 
+3. Prepare text for train, test, and inference
+4. Training models at the entity level - MultinomialNB, Logistic regression, SVM, and Random Forest
+5. Pick the best model based on classification reports
+6. Make inference: party_clf_pdid_rf.joblib has been applied to the 1.40m dataset (entity_level/concatenated ad combined text)
 
 ### Model details
-GridSearchCV best parameters:
-- 'clf__alpha': 0.01
-- 'tfidf__norm': 'l2',
-- 'tfidf__use_idf': False,
-- 'vect__ngram_range': (2, 2)
+GridSearchCV best Params:  {'clf__max_depth': 25, 'clf__max_features': 0.1, 'clf__n_estimators': 500}
 
 ### Model performance
 Performance on held-out test set:
 ```
               precision    recall  f1-score   support
 
-DEM           0.862         0.956     0.907       274
-OTHER         1.000         0.091     0.167        22
-REP           0.900         0.855     0.877       200
+         DEM      0.843     0.941     0.889       491
+       OTHER      1.000     0.091     0.167        44
+         REP      0.887     0.851     0.869       424
 
-accuracy                             0.877       496
-macro avg     0.921        0.634     0.650       496
-weighted avg  0.883        0.877     0.862       496
+    accuracy                          0.862       959
+   macro avg      0.910     0.628     0.642       959
+weighted avg      0.870     0.862     0.847       959
 ```
 
-### Output files (Files can be downloaded from Google Drive)
-* Training results
-    - `/content/drive/Shareddrives/Delta Lab/Data/facebook_2020_party_all_pdid/party_clf_pdid_mnb.joblib`
-    - `/content/drive/Shareddrives/Delta Lab/Data/facebook_2020_party_all_pdid/party_clf_pdid_logit.joblib`
-    - `/content/drive/Shareddrives/Delta Lab/Data/facebook_2020_party_all_pdid/party_clf_pdid_svm.joblib`
+### Output files (Large files that need to be downloaded from Google Drive)
+* Model weights
+    - `/content/drive/Shareddrives/Delta Lab/github/party_classifier_pdid /party_clf_pdid_mnb.joblib`
 
-* Inference results
-    - `/content/drive/Shareddrives/Delta Lab/Data/facebook_2020_party_all_pdid/party_clf_entity_fb_118m.csv`
