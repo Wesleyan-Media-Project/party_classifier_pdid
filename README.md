@@ -1,4 +1,4 @@
-# party_all_classifier_pdid
+# party_classifier_pdid
 
 This party clf is trained at the entity level using a Random Forest model.
 
