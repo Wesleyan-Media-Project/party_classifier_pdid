@@ -1,10 +1,9 @@
 # Wesleyan Media Project - Party Classifier with Unique ID
 
-Welcome! This repo is a part of the Cross-platform Election Advertising Transparency initiative ([CREATIVE](https://www.creativewmp.com/)) project. CREATIVE is a joint infrastructure project of WMP and privacy-tech-lab at Wesleyan University. CREATIVE provides cross-platform integration and standardization of political ads collected from Google and Facebook. You will also need the repo [datasets](https://github.com/Wesleyan-Media-Project/datasets), [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) and [fb_2022](https://github.com/Wesleyan-Media-Project/fb_2022) repos to run the script.
+Welcome! This repo is a part of the Cross-platform Election Advertising Transparency initiative ([CREATIVE](https://www.creativewmp.com/)) project. CREATIVE is a joint infrastructure project of WMP and privacy-tech-lab at Wesleyan University. CREATIVE provides cross-platform integration and standardization of political ads collected from Google and Facebook. You will also need the repo [datasets](https://github.com/Wesleyan-Media-Project/datasets), [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) and [data-post-production](https://github.com/Wesleyan-Media-Project/data-post-production) repos to run the script.
 
 This repo is a part of the Final Data Classification step.
 ![A picture of the repo pipeline with this repo highlighted](Creative_Pipelines.png)
-
 
 ## Table of Contents
 
@@ -60,7 +59,7 @@ to install the packages.
 ### Repo Workflow
 
 1. Keep entities in the 1.40m dataset which have 'party_all' info from wmp_fb_entities_v051822.csv
-2. Split page names into train and test (train_size = 0.7) to make sure pd ids of a page into either train or test but never both. 
+2. Split page names into train and test (train_size = 0.7) to make sure pd ids of a page into either train or test but never both.
 3. Prepare text for train, test, and inference
 4. Training models at the entity level - MultinomialNB, Logistic regression, SVM, and Random Forest
 5. Pick the best model based on classification reports
@@ -68,11 +67,12 @@ to install the packages.
 
 ### Model details
 
-GridSearchCV best Params:  {'clf__max_depth': 25, 'clf__max_features': 0.1, 'clf__n_estimators': 500}
+GridSearchCV best Params: {'clf**max_depth': 25, 'clf**max_features': 0.1, 'clf\_\_n_estimators': 500}
 
 ### Model performance
 
 Performance on held-out test set:
+
 ```
               precision    recall  f1-score   support
 
