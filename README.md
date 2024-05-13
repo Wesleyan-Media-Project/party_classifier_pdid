@@ -19,22 +19,22 @@ To analyze the different dimensions of political ad transparency we have develop
 
 ## 1. Overview
 
-The party classifier in this repo is trained using a Random Forest model, which is a machine learning algorithm that combines multiple decision trees to make predictions. The classifier is trained on the dataset of ads that have already been labeled with the party each ads belongs to.
+The party classifier in this repo is trained using a Random Forest model, which is a machine-learning algorithm that combines multiple decision trees to make predictions. The classifier is trained on the dataset of ads that have already been labeled with the party each ad belongs.
 
 Unlike [the ad-level party classifiers](https://github.com/Wesleyan-Media-Project/party_classifier) that operate at the individual ad level, this classifier works at the entity level by analyzing all ads associated with a particular entity ["pd_id"](https://github.com/Wesleyan-Media-Project/fb_pd_id) collectively.
 
-In situations where you need clear and specific predictions about political party affiliations for ads, it's better to use this classifier instead of the [ad-level one](https://github.com/Wesleyan-Media-Project/party_classifier). This is because this party classifier operates under the assumption that all ads associated with a single pd_id will belong to the same party, leading to more consistent and potentially more accurate predictions about party affiliation when viewing the ads collectively rather than individually
+In situations where you need clear and specific predictions about political party affiliations for ads, it's better to use this classifier instead of the [ad-level one](https://github.com/Wesleyan-Media-Project/party_classifier). This is because this party classifier operates under the assumption that all ads associated with a single pd_id will belong to the same party, leading to more consistent and potentially more accurate predictions about party affiliation when viewing the ads collectively rather than individually.
 
-The script `01_create_training_data.ipynb` prepares a training dataset by first  reading the ad data `fb_2020_140m_adid_var1.csv.gz` and merges it with the WMP entity file `wmp_fb_entities_v090622.csv` based on the pd_id column. This allows the script to associate each ad with a party affiliation. Second, the script checks for each page ID (page_id) and ensure all associated ads has consistent party affiliations across. If a page ID has ads with conflicting party affiliations, it marks that page ID as non-usable. Third, the script split page names into train and test with a 70/30 split to make sure pd ids of a usable page into either train or test but never both. Finally, the script  prepare text for train, test, and inference by filtering out the rows with non-usable page IDs and saving the resulting data frame as a compressed CSV file: `140m_with_page_id_based_training_data.csv.gz`. This file contains the ad data, page IDs, party affiliations, and the train-test split information for the usable page IDs and is located in the `/data/facebook` folder.
+The script `01_create_training_data.ipynb` prepares a training dataset by first  reading the ad data `fb_2020_140m_adid_var1.csv.gz` and merges it with the WMP entity file `wmp_fb_entities_v090622.csv` based on the pd_id column. This allows the script to associate each ad with a party affiliation. Second, the script checks for each page ID (page_id) and ensures all associated ads have consistent party affiliations across. If a page ID has ads with conflicting party affiliations, it marks that page ID as non-usable. Third, the script split page names into train and test with a 70/30 split to make sure pd ids of a usable page into either train or test but never both. Finally, the script prepares text for train, testing, and inference by filtering out the rows with non-usable page IDs and saving the resulting data frame as a compressed CSV file: `140m_with_page_id_based_training_data.csv.gz`. This file contains the ad data, page IDs, party affiliations, and the train-test split information for the usable page IDs and is located in the `/data/facebook` folder.
 
-The script `02_training.ipynb` then loads the training data and trains the party classifier model. During the training process, the script trains the following machine learning models and pick the best model Random Forest based on classification reports:
+The script `02_training.ipynb` then loads the training data and trains the party classifier model. During the training process, the script trains the following machine learning models and picks the best model Random Forest based on classification reports:
 
 - Multinomial Naive Bayes (MultinomialNB)
 - Logistic Regression
 - Support Vector Machine (SVM)
 - Random Forest
 
-All models are saved in the `/models` folder. The best model that later used to inference the new data is  `party_clf_pdid_rf.joblib`.
+All models are saved in the `/models` folder. The best model which later used to inference the new data is  `party_clf_pdid_rf.joblib`.
 
 ### Model details
 
@@ -46,7 +46,7 @@ The best-performing model is identified as the Random Forest Classifier with the
 
 ### Model performance
 
-Here is the model performance on held-out test set:
+Here is the model performance on the held-out test set:
 
 ```
               precision    recall  f1-score   support
@@ -60,7 +60,7 @@ Here is the model performance on held-out test set:
 weighted avg      0.870     0.862     0.847       959
 ```
 
-After the training, the following scripts `03_google2022_inference.ipynb`, `03_inference_140m.ipynb` and `03_inference_fb2022.ipynb` are all used to apply the trained model to different datasets. The applied output is saved accordingly in the file `party_all_clf_google_2022_advertiser_id.csv`, `party_all_clf_pdid_fb_2020_140m.csv`, and `party_all_clf_pdid_fb_2022.csv`
+After the training, the following scripts `03_google2022_inference.ipynb`, `03_inference_140m.ipynb`, and `03_inference_fb2022.ipynb` are all used to apply the trained model to different datasets. The applied output is saved accordingly in the file `party_all_clf_google_2022_advertiser_id.csv`, `party_all_clf_pdid_fb_2020_140m.csv`, and `party_all_clf_pdid_fb_2022.csv`
 
 ## 2. Objective
 
