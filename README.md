@@ -1,8 +1,11 @@
 # Wesleyan Media Project - Party Classifier with Unique ID
 
-Welcome! This repo is a part of the Cross-platform Election Advertising Transparency initiative ([CREATIVE](https://www.creativewmp.com/)) project. CREATIVE is a joint infrastructure project of WMP and privacy-tech-lab at Wesleyan University. CREATIVE provides cross-platform integration and standardization of political ads collected from Google and Facebook. You will also need the repo [datasets](https://github.com/Wesleyan-Media-Project/datasets), [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) and [data-post-production](https://github.com/Wesleyan-Media-Project/data-post-production) repos to run the script.
+Welcome! This repository contains scripts that train and apply a machine learning model to classify political advertisements based on their content and determine which political party (Democratic, Republican, or Other) the ads belong to.
 
-This repo is a part of the Data Classification Step.
+This repo is a part of the [Cross-platform Election Advertising Transparency Initiative (CREATIVE)](https://www.creativewmp.com/). CREATIVE is an academic research project that has the goal of providing the public with analysis tools for more transparency of political ads across online platforms. In particular, CREATIVE provides cross-platform integration and standardization of political ads collected from Google and Facebook. CREATIVE is a joint project of the [Wesleyan Media Project (WMP)](https://mediaproject.wesleyan.edu/) and the [privacy-tech-lab](https://privacytechlab.org/) at [Wesleyan University](https://www.wesleyan.edu).
+
+To analyze the different dimensions of political ad transparency we have developed an analysis pipeline. The scripts in this repo are part of the Data Classification Step in our pipeline.
+
 ![A picture of the repo pipeline with this repo highlighted](Creative_Pipelines.png)
 
 ## Table of Contents
@@ -18,7 +21,11 @@ This repo is a part of the Data Classification Step.
 
 ## Introduction
 
-This party classifier is trained at the entity level using a Random Forest model. It concatenates all ads of a pd_id into one. In practice, when discrete party predictions are needed, you should choose this classifier compared to [ad-level one](https://github.com/Wesleyan-Media-Project/party_classifier), because it assumes that all ads belonging to a pd_id will be the same party.
+The party classifier in this repo is trained using a Random Forest model, which is a machine learning algorithm that combines multiple decision trees to make predictions. The classifier is trained on the dataset of ads that have already been labeled with the party each ads belongs to.
+
+Unlike [the ad-level party classifiers](https://github.com/Wesleyan-Media-Project/party_classifier) that operate at the individual ad level, this classifier works at the entity level by analyzing all ads associated with a particular entity ["pd_id"](https://github.com/Wesleyan-Media-Project/fb_pd_id) collectively.
+
+In situations where you need clear and specific predictions about political party affiliations for ads, it's better to use this classifier instead of the [ad-level one](https://github.com/Wesleyan-Media-Project/party_classifier). This is because this party classifier operates under the assumption that all ads associated with a single pd_id will belong to the same party, leading to more consistent and potentially more accurate predictions about party affiliation when viewing the ads collectively rather than individually
 
 ## Objective
 
