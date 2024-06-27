@@ -26,6 +26,8 @@ In situations where you need clear and specific predictions about political part
 
 ## 2 Setup
 
+The scripts in this repo are in [Python](https://www.python.org/). Make sure you have both installed and set up before continuing. To install and set up Python you can follow the [Beginner's Guide to Python](https://wiki.python.org/moin/BeginnersGuide). The Python Scripts in this repo uses Jupyter Notebook as an interface. It is an interactive environment for Python development. You can install Jupyter Notebook by following the [Jupyter Notebook website](https://jupyter.org/install).
+
 To start setting up the repo and run the scripts, first clone this repo to your local directory:
 
 ```bash
@@ -51,17 +53,28 @@ After installing the required packages, you can run the scripts in the following
 2. `02_training.ipynb`
 3. `03_google2022_inference.ipynb`, `03_inference_140m.ipynb`, or `03_inference_fb2022.ipynb`
 
+To run the above IPython Notebook code ending with `.ipynb`, you can open the Jupyter Notebook interface by type the following in your terminal:
+
+```bash
+jupyter notebook
+```
+
+After you open the Jupyter Notebook interface, you can navigate to the folder where you have cloned the repo and open the script you want to run.
+
+Then, click on the first code cell to select it.
+Run each cell sequentially by clicking the Run button or pressing `Shift + Enter`.
+
 If you want to use the trained model we provide, you can only run the inference script since the model files are already present in the [`/models`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/models) folder.
 
 ### 2.1 Training
 
 Note: If you do not want to train a model from scratch, you can use the trained model we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/models/party_clf_pdid_rf.joblib), and skip to 2.2.
 
-To run our scripts, you need to have a trained classifier. The script [`01_create_training_data.ipynb`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/01_create_training_data.ipynb) prepares a training dataset by first reading the ad data `fb_2020_140m_adid_var1.csv.gz` (ADD FIGSHARE LINK ONCE READY) which has the metadata for each ad and merges it with the WMP entity file [`wmp_fb_entities_v090622.csv`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2022/wmp_fb_2022_entities_v091922.csv) which has the party affiliation information on each entity that publishes ads on Facebook, based on the pd_id column. This allows the script to associate each ad with a party affiliation. 
+To run our scripts, you need to have a trained classifier. The script [`01_create_training_data.ipynb`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/01_create_training_data.ipynb) prepares a training dataset by first reading the ad data `fb_2020_140m_adid_var1.csv.gz` (ADD FIGSHARE LINK ONCE READY) which has the metadata for each ad and merges it with the WMP entity file [`wmp_fb_entities_v090622.csv`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2022/wmp_fb_2022_entities_v091922.csv) which has the party affiliation information on each entity that publishes ads on Facebook, based on the pd_id column. This allows the script to associate each ad with a party affiliation.
 
-Second, the script checks for each page ID (page_id) and ensures all associated ads have consistent party affiliations. If a page ID has ads with conflicting party affiliations, it marks that page ID as non-usable. 
+Second, the script checks for each page ID (page_id) and ensures all associated ads have consistent party affiliations. If a page ID has ads with conflicting party affiliations, it marks that page ID as non-usable.
 
-Third, the script split page names into train and test with a 70/30 split to make sure pd ids of a usable page into either train or test but never both. 
+Third, the script split page names into train and test with a 70/30 split to make sure pd ids of a usable page into either train or test but never both.
 
 Finally, the script prepares text for train, testing, and inference by filtering out the rows with non-usable page IDs and saving the resulting data frame as a compressed CSV file: [`140m_with_page_id_based_training_data.csv.gz`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/data/facebook/140m_with_page_id_based_training_data.csv.gz). This file contains the ad data, page IDs, party affiliations, and the train-test split information for the usable page IDs.
 
