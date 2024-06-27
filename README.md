@@ -11,9 +11,11 @@ To analyze the different dimensions of political ad transparency we have develop
 ## Table of Contents
 
 - [1. Overview](#1-overview)
-  - [Model details](#model-details)
-  - [Model performance](#model-performance)
 - [2. Setup](#2-setup)
+  - [2.1 Training](#21-training)
+    - [2.1.1 Model details](#211-model-details)
+    - [2.1.2 Model performance](#212-model-performance)
+  - [2.2 Inference](#22-inference)
 - [3. Thank You](#3-thank-you)
 
 ## 1. Overview
