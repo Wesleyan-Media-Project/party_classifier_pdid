@@ -72,7 +72,7 @@ If you want to use the trained model we provide, you can only run the inference 
 
 Note: If you do not want to train a model from scratch, you can use the trained model we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/models/party_clf_pdid_rf.joblib), and skip to 2.2.
 
-To run our scripts, you need to have a trained classifier. The script [`01_create_training_data.ipynb`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/01_create_training_data.ipynb) prepares a training dataset by first reading the ad data `fb_2020_140m_adid_var1.csv.gz` (ADD FIGSHARE LINK ONCE READY) which has the metadata for each ad and merges it with the WMP entity file [`wmp_fb_entities_v090622.csv`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2022/wmp_fb_2022_entities_v091922.csv) which has the party affiliation information on each entity that publishes ads on Facebook, based on the pd_id column. This allows the script to associate each ad with a party affiliation.
+To run our scripts, you need to have a trained classifier. The script [`01_create_training_data.ipynb`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/01_create_training_data.ipynb) prepares a training dataset by first reading the ad data [`fb_2020_140m_adid_var1.csv.gz`](https://figshare.wesleyan.edu/account/articles/26093254) which has the metadata for each ad and merges it with the WMP entity file [`wmp_fb_entities_v090622.csv`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2022/wmp_fb_2022_entities_v091922.csv) which has the party affiliation information on each entity that publishes ads on Facebook, based on the pd_id column. This allows the script to associate each ad with a party affiliation.
 
 Second, the script checks for each page ID (page_id) and ensures all associated ads have consistent party affiliations. If a page ID has ads with conflicting party affiliations, it marks that page ID as non-usable.
 
@@ -117,9 +117,9 @@ weighted avg      0.870     0.862     0.847       959
 
 After the training, the following scripts `03_google2022_inference.ipynb`, `03_inference_140m.ipynb`, and `03_inference_fb2022.ipynb` are all used to apply the trained model to different datasets. The applied output is saved accordingly in the file `party_all_clf_google_2022_advertiser_id.csv`, `party_all_clf_pdid_fb_2020_140m.csv`, and `party_all_clf_pdid_fb_2022.csv` respectively. Here are the input files you need for each of these inference scripts:
 
-- For Facebook 2020: `fb_2020_140m_adid_text_clean.csv.gz` and `fb_2020_140m_adid_var1.csv.gz` (ADD FIGSHARE LINK ONCE READY)
-- For Google 2022: `g2022_adid_01062021_11082022_text.csv.gz` (ADD FIGSHARE LINK ONCE READY)
-- For Facebook 2022: `fb_2022_adid_text.csv.gz` and `fb_2022_adid_var1.csv.gz` (ADD FIGSHARE LINK ONCE READY)
+- For Facebook 2020: [`fb_2020_140m_adid_text_clean.csv.gz`](https://figshare.wesleyan.edu/account/articles/26093257) and [`fb_2020_140m_adid_var1.csv.gz`](https://figshare.wesleyan.edu/account/articles/26093254)
+- For Google 2022: [`g2022_adid_01062021_11082022_text.csv.gz`](https://figshare.wesleyan.edu/account/articles/26124343)
+- For Facebook 2022: [`fb_2022_adid_text.csv.gz`](https://figshare.wesleyan.edu/account/articles/26124295) and [`fb_2022_adid_var1.csv.gz`](https://figshare.wesleyan.edu/account/articles/26124340)
 
 Note: If you would like to use a model different than Random Forest, you can simply change the model input script with the appropriate model. For instance, if you want to use the SVM model, replace the following script in the inference scripts:
 `mnb_clf = load('models/party_clf_pdid_rf.joblib')`
