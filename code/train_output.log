@@ -1,0 +1,53 @@
+
+Logistic regression
+
+Best Params:  {'clf__C': 1000, 'clf__penalty': 'l2', 'clf__solver': 'newton-cg'}
+              precision    recall  f1-score   support
+
+         DEM      0.882     0.938     0.909       390
+       OTHER      0.875     0.269     0.412        26
+         REP      0.908     0.887     0.897       310
+
+    accuracy                          0.893       726
+   macro avg      0.888     0.698     0.739       726
+weighted avg      0.893     0.893     0.886       726
+
+SVM
+
+Best Params:  {'clf__alpha': 0.001, 'tfidf__use_idf': False, 'vect__ngram_range': (1, 2)}
+              precision    recall  f1-score   support
+
+         DEM      0.838     0.941     0.886       390
+       OTHER      0.000     0.000     0.000        26
+         REP      0.906     0.842     0.873       310
+
+    accuracy                          0.865       726
+   macro avg      0.581     0.594     0.586       726
+weighted avg      0.837     0.865     0.849       726
+
+Multinomial NB
+
+Best Params:  {'clf__alpha': 0.01, 'tfidf__norm': 'l2', 'tfidf__use_idf': False, 'vect__ngram_range': (2, 2)}
+              precision    recall  f1-score   support
+
+         DEM      0.866     0.977     0.918       390
+       OTHER      1.000     0.154     0.267        26
+         REP      0.954     0.868     0.909       310
+
+    accuracy                          0.901       726
+   macro avg      0.940     0.666     0.698       726
+weighted avg      0.908     0.901     0.891       726
+
+Random Forest
+
+Best Params:  {'clf__max_depth': 40, 'clf__n_estimators': 200}
+              precision    recall  f1-score   support
+
+         DEM      0.846     0.974     0.906       390
+       OTHER      0.000     0.000     0.000        26
+         REP      0.957     0.855     0.903       310
+
+    accuracy                          0.888       726
+   macro avg      0.601     0.610     0.603       726
+weighted avg      0.863     0.888     0.872       726
+
