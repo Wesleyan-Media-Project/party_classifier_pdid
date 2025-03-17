@@ -20,7 +20,7 @@ To analyze the different dimensions of political ad transparency we have develop
 
 ## 1. Overview
 
-We provide 4 different party classifier models that are each trained using different algorithms. We recommend (and implement in our scripts) the Random Forest model which provided the highest accuracy in our training. Nonetheless, we give you all four models should you wish to use them. The party classifier is trained on a dataset of ads that have already been labeled with the party each ad belongs to.
+We provide 4 different party classifier models that are each trained using different algorithms. We recommend (and implement in our scripts) the Multinomial Naive Bayes model which provided the highest accuracy in our training. Nonetheless, we give you all four models should you wish to use them. The party classifier is trained on a dataset of ads that have already been labeled with the party each ad belongs to.
 
 In addition to the classifier in this repo, we also provide an [ad-level party classifier](https://github.com/Wesleyan-Media-Project/party_classifier). Unlike the ad-level party classifier that operates at the individual ad level, the party classifier in this repo works at the entity level by analyzing all ads associated with a particular entity ["pd_id"](https://github.com/Wesleyan-Media-Project/fb_pd_id) collectively.
 
@@ -49,32 +49,21 @@ You can install the required packages by running the following command:
 pip install pandas numpy scikit-learn joblib
 ```
 
-After installing the required packages, you can run the scripts in the following order:
+After installing the required packages, you can run the scripts in the code repository the following order:
 
-1. `01_create_training_data.ipynb`
-2. `02_training.ipynb`
-3. `03_google2022_inference.ipynb`, `03_inference_140m.ipynb`, or `03_inference_fb2022.ipynb`
-
-To run the above IPython Notebook code ending with `.ipynb`, you can open the Jupyter Notebook interface by type the following in your terminal:
-
-```bash
-jupyter notebook
-```
-
-After you open the Jupyter Notebook interface, you can navigate to the folder where you have cloned the repo and open the script you want to run.
-
-Then, click on the first code cell to select it.
-Run each cell sequentially by clicking the Run button or pressing `Shift + Enter`.
+1. `01_create_training_data.py`
+2. `02_training.py`
+3. `03_inference_google_2022.py` (for Google 2022 data) and `03_inference_fb_2022.py` (for Meta 2022 data)
 
 If you want to use the trained model we provide, you can only run the inference script since the model files are already present in the [`/models`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/models) folder.
 
 ### 2.1 Training
 
-Note: If you do not want to train a model from scratch, you can use the trained model we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/models/party_clf_pdid_rf.joblib), and skip to 2.2.
+Note: If you do not want to train a model from scratch, you can use the trained model we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/models/party_clf_pdid_mnb.joblib), and skip to 2.2.
 
 Please note that to access the data stored on Figshare, you will need to fill out a brief form and then immediately get data access.
 
-To run our scripts, you need to have a trained classifier. The script [`01_create_training_data.ipynb`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/01_create_training_data.ipynb) prepares a training dataset by first reading the ad data [`fb_2020_140m_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/) which has the metadata for each ad and merging it with the WMP entity file [`wmp_fb_entities_v090622.csv`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2022/wmp_fb_2022_entities_v091922.csv) which has the party affiliation information on each entity that publishes ads on Facebook, based on the pd_id column. This allows the script to associate each ad with a party affiliation. You will need to download `fb_2020_140m_adid_var1.csv.gz` and make sure that where it is located on your machine matches up with what is in the script `01_create_training_data.ipynb`. 
+To run our scripts, you need to have a trained classifier. The script [`01_create_training_data.py`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/01_create_training_data.py) prepares a training dataset by first reading the Meta and Google 2022 ad data stored in [Figshare](https://www.creativewmp.com/data-access/) which has the extracted text and metadata for each ad and merging it with the WMP entity file [`wmpentity_2022_012125_mergedFECids.dta`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/wmpentity_2022_012125_mergedFECids.dta) (Meta) and [`2022_google_entities_20240303_woldidstomerge.csv`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Google/2022_google_entities_20240303_woldidstomerge.csv) which has the party affiliation information on each entity that publishes ads on Facebook, based on the pd_id column. This allows the script to associate each ad with a party affiliation. You will need to download `fb_2022_adid_var1.csv.gz`, `fb_2022_adid_text.csv.gz`, `g2022_adid_var1.csv.gz`, and `g2022_adid_text.csv.gz` and make sure that where they are located on your machine matches up with what is in the script `01_create_training_data.py`. 
 
 Second, the script checks for each page ID (page_id) and ensures all associated ads have consistent party affiliations. If a page ID has ads with conflicting party affiliations, it marks that page ID as non-usable.
 
@@ -106,28 +95,28 @@ Here is the model performance on the held-out test set:
 ```
               precision    recall  f1-score   support
 
-         DEM      0.843     0.941     0.889       491
-       OTHER      1.000     0.091     0.167        44
-         REP      0.887     0.851     0.869       424
+         DEM      0.866     0.977     0.918       390
+       OTHER      1.000     0.154     0.267        26
+         REP      0.954     0.868     0.909       310
 
-    accuracy                          0.862       959
-   macro avg      0.910     0.628     0.642       959
-weighted avg      0.870     0.862     0.847       959
+    accuracy                          0.901       726
+   macro avg      0.940     0.666     0.698       726
+weighted avg      0.908     0.901     0.891       726
+
 ```
 
 ### 2.2 Inference
 Please note that to access the data stored on Figshare, you will need to fill out a brief form and then immediately get data access.
 
-After the training, the following scripts `03_google2022_inference.ipynb`, `03_inference_140m.ipynb`, and `03_inference_fb2022.ipynb` are all used to apply the trained model to different datasets. The applied output is saved accordingly in the file `party_all_clf_google_2022_advertiser_id.csv`, `party_all_clf_pdid_fb_2020_140m.csv`, and `party_all_clf_pdid_fb_2022.csv` respectively. Here are the input files you need for each of these inference scripts:
+After the training, the following scripts `03_inference_google_2022.py`, and `03_inference_fb_2022.py` are all used to apply the trained model to different datasets. The applied output is saved accordingly in the file `party_all_clf_google_2022_advertiser_id.csv.gz` and `party_all_clf_pdid_fb_2022.csv.gz` respectively. Here are the input files you need for each of these inference scripts:
 
-- For Facebook 2020: `fb_2020_140m_adid_text_clean.csv.gz` and `fb_2020_140m_adid_var1.csv.gz`. Note that these files will be made available when they are ready. 
-- For Google 2022: [`g2022_adid_01062021_11082022_text.csv.gz`](https://www.creativewmp.com/data-access/)
+- For Google 2022: [`g2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`g2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/)
 - For Facebook 2022: [`fb_2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`fb_2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/)
 
-Note: If you would like to use a model different than Random Forest, you can simply change the model input script with the appropriate model. For instance, if you want to use the SVM model, replace the following script in the inference scripts:
-`mnb_clf = load('models/party_clf_pdid_rf.joblib')`
+Note: If you would like to use a model different than Multinomial Naive Bayes, you can simply change the model input script with the appropriate model. For instance, if you want to use the Random Forest model, replace the following script in the inference scripts:
+`mnb_clf = load('models/party_clf_pdid_mnb.joblib')`
 with this:
-`mnb_clf = load('models/party_clf_pdid_svm.joblib')`
+`mnb_clf = load('models/party_clf_pdid_rf.joblib')`
 
 ## 3. Thank You
 
