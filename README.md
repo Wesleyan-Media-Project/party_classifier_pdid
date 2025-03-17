@@ -69,7 +69,7 @@ Second, the script checks for each page ID (page_id) and ensures all associated 
 
 Third, the script split page names into train and test with a 70/30 split to make sure pd ids of a usable page into either train or test but never both.
 
-Finally, the script prepares text for train, testing, and inference by filtering out the rows with non-usable page IDs and saving the resulting data frame as a compressed CSV file: [`140m_with_page_id_based_training_data.csv.gz`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/data/facebook/140m_with_page_id_based_training_data.csv.gz). This file contains the ad data, page IDs, party affiliations, and the train-test split information for the usable page IDs.
+Finally, the script prepares text for train, testing, and inference by filtering out the rows with non-usable page IDs and saving the resulting data frame as compressed CSV files under the data directory of this repo. This file contains the ad data, page IDs, party affiliations, and the train-test split information for the usable page IDs.
 
 Once our training data is ready, the script [`02_training.ipynb`](https://github.com/Wesleyan-Media-Project/party_classifier_pdid/blob/main/02_training.ipynb) loads this training data and trains the party classifier. During the training process, the script trains the following machine learning models and picks the best model (e.g., Random Forest) based on classification reports:
 
